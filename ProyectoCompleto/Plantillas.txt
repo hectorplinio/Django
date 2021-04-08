@@ -1,0 +1,24 @@
+CREACION DE PAGINAS CON PLANTILLAS BOOTSTRAP
+1- Debemos meternos en la pagina https://getbootstrap.com/
+2- Descargar la plantilla que queramos y crear una carpeta llamada static y meter ahi los archivos por defecto
+3- Debemos cargar {% load static %} en el head del documento home
+4- Añadir en cada link de static "{% static 'ProyectoWebApp ......'%}"
+5- Copiamos el mismo archivo y lo llamamos base.html ya que queremos que todas las paginas sean iguales y solo cambie el contenido de estas
+6- Dejamos el header y el footer que es lo que queremos que salga en todas las paginas y borramos el contenido cambiante
+7- Donde hemos borrado escribimos 
+{% block content %}
+
+    
+{% endblock %}
+8- En el archivo home.html hacemos la operacion a la inversa y añadimos arriba 
+{% extends "ProyectoWebApp/base.html" %}
+
+{% load static %}
+{% block content %}
+9- Yal final cerramos el block content
+{% endblock %}
+10- Debemos cambiar las urls del apartado nav "{% url 'Home' %}" dejar el formato asi
+IMPORTANTE LA PALABRA DENTRO DE COMILLAS SIMPLES TIENE QUE SER IGUAL QUE LAS DEL ARCHIVO URLS.PY
+11- Si queremos que se ponga iluminado en la barra de navegacion la pagina en la que estamos tenemos que añadir esto dentro del navgar
+hay que ponerlo dentro del li y del class {% if request.path == '/' %}active{% endif %} dentro de las comillas va el nombre de la url
+que queramos visitar

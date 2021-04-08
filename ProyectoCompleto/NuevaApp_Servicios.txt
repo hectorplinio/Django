@@ -1,0 +1,38 @@
+VAMOS A CREAR UNA APP DENTRO DE ESTA APP QUE ASI PODREMOS REUTILIZAR
+1- Abrimos la terminal y escribimos python manage.py starapp Servicios
+2- Abrimos el archivo setting y en INSTALLED_APPS añadimos 'Servicios',
+3- Abrimos el archivo models.py de Servicios y creamos las clases para que nos haga las tablas
+class Servicio(models.Model):
+    titulo=models.CharField(max_length=50)
+    contenido=models.CharField(max_length=50)
+    imagen=models.ImageField()
+    created=models.DateTimeField(auto_now_add=True) Esto es para que ponga la fecha de manera automatica
+    updated=models.DateTimeField(auto_now_add=True)
+	
+	class Meta:	Esto sirve para darle el nombre a la tabla, es algo adicional
+        	verbose_name='Servicio'  
+        	verbose_name_plural='Servicios'
+    
+    	def __str__(self):
+        	return self.titulo
+4- python manage.py makemigrations (Para usar imagenes hay que instalar pip install Pillow)
+5- python manage.py migrate
+6- python manage.py createsuperuser
+7- Para agregar servicio a la pagina admin tenemos que abrir el archivo admin from .models import Servicio
+8- Para que salgan created y updated debemos crear una clase de solo lectura
+class ServicioAdmin(admin.ModelAdmin):
+    readonly_fields=("created", "updated")
+9- Y poner bajo esto admin.site.register(Servicio, ServicioAdmin)
+AÑADIR IMAGENES Y VERLAS EN INTERNET
+10- Para que nos guarde las imagenes que subamos a la base de datos de manera ordenada lo que tenemos que hacer es indicarle la carpeta
+11- Creamos una carpeta llamada media y dentro de ella otra llamda Servicios
+12- Abrimos settings y ponemos debajo de STATIC_URL
+MEDIA_URL= '/media/'
+
+MEDIA_ROOT=BASE_DIR / 'media'
+13- En models añadimos en imagen upload_to='Servicios' para que las descargue en la carpeta
+14- Para ver las imagenes tenemos que abrir urls e importar
+from django.conf import settings
+from django.conf.urls.static import static
+15- Añadimos bajo del todo 
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

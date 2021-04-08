@@ -1,0 +1,66 @@
+CREACION DE FORMULARIOS
+1- Lo primero que tenemos que hacer es crear un formulario en html
+2- Abrir el archvio views.py y crear una funcion 
+def busqueda_productos(request):
+    return render(request, "busqueda_productos.html")
+3- Importamos el archivo views from gestionPedidos import views
+4- Abrimos el archivo urls y creamos un nuevo path path('busqueda_productos/',views.busqueda_productos),
+5- Abrimos el archivo views.py e importamos from django.http import HttpResponse
+6- Y creamos otro metodo 
+def buscar(request):
+    mensaje="Articulos buscado: %r" %request.GET["producto"]
+    return HttpResponse(mensaje)
+7- Abrimos el archivo views.py y añadimos otro path path('buscar/', views.buscar),
+
+PARA USAR LA INFORMACION DEL FORMULARIO
+1- Importamos from gestionPedidos.models import Articulos
+2- Creamos dentro del metodo buscar una condicion y añadimos estas lineas
+producto=request.GET["producto"]
+        articulos=Articulos.objects.filter(nombre__icontains=producto)
+        return render(request, "resultados_busqueda.html",{"articulos":articulos, "query":producto})
+3- Creamos el archivo html que hemos nombrado arriba
+<p>Estas buscando: <strong>{{query}}</strong></p>
+        {% if articulos %}
+            <p>Articulos encontrado: {{articulos|length}} articulos</p>
+            <ul>
+                {% for articulos in articulos %}
+                    <li>
+                        {{articulos.nombre}} &nbsp; {{articulos.seccion}} &nbsp; {{articulos.precio}}€
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>No encontrado el articulo</p>
+        {% endif %}
+
+PARA CREAR PAGINA DE CONTACTO Y ENVIAR EMAIL
+1- Creamos el html que vamos a usar para el formulario de contacto 
+IMPORTANTE PONER AL FINAL DEL FORM {% csrf_token %} PARA QUE FUNCIONE Y NO NOS PUEDAN ATACAR LA PAGINA
+2- Creamos un nuevo metodo en views.py 
+def contacto(request):
+    if request.method=="POST":
+        return render(request, "gracias.html")
+    return render(request, "contacto.html")
+3- Creamos el path en urls.py path('contacto/', views.contacto),
+
+ENVIAR UN EMAIL BACKEND
+1- Debemos abrir el archivo settings y al final poner estas lineas
+EMAIL_BACKEND="django.core.mail.backends.smtp.EmailBackend"
+EMAIL_HOST="smtp.gmail.com"
+EMAIL_USE_TLS=True
+EMAIL_PORT=587
+EMAIL_HOST_USER="elcorrequesea@gmail.com"
+EMAIL_HOST_PASSWORD="contraseñaquesea"
+2- Importar libreria from django.core.mail import send_mail
+3- Para comprobar los datos ponemos esto en la terminal
+send_mail('Asunto','Mensaje','hectorvillena123@gmail.com',['hectorplinio@gmail.com'],fail_silently=False,)
+4- Si eso funciona vamos al archivo views.py y añadimos en el metodo contacto
+	subject=request.POST["asunto"]
+        message=request.POST["mensaje"] + " " + request.POST["email"]
+        email_from=settings.EMAIL_HOST_USER
+        recipient_list=["hectorvillena123@gmail.com"]
+        send_mail(subject, message, email_from, recipient_list)
+5- Importamos arriba del archivo 
+from django.core.mail import send_mail
+from django.conf import settings
+6- Y comprobamos que funcione

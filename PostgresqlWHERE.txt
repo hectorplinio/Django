@@ -1,0 +1,18 @@
+1- python manage.py shell
+2- from gestionPedidos.models import Articulos
+3- Articulos.objects.filter(seccion='deportes') debemos poner filter cuando queramos usar un where
+4- Debemos crear un metodo dentro de la clase 
+	def __str__(self):
+        	return "El nombre es %s la seccion es %s y el precio es %s" %(self.nombre,self.seccion,self.precio)
+5- exit()
+6- python manage.py makemigrations
+7- python manage.py migrate
+8- python manage.py shell
+9- HAcemos paso 2 y paso 3 y ya nos debe salir
+10- Consultas complejas Articulos.objects.filter(nombre='mesa', seccion='decoracion') 
+11- Articulos.objects.filter(seccion='decoracion', precio>100) ESTA MAL
+12- Articulos.objects.filter(seccion='decoracion', precio__gte=100) MAYOR QUE
+13- Articulos.objects.filter(seccion='decoracion', precio__lte=100) MENOR QUE
+14- Articulos.objects.filter(seccion='decoracion', precio__range(10,60) ENTRE VARIOS VALORES
+15- Articulos.objects.filter(seccion='decoracion', precio__gte=100).order_by('precio') PARA ORDENAR DE MENOR A MAYOR
+16-  Articulos.objects.filter(seccion='decoracion', precio__gte=100).order_by('-precio') ORDENAR AL REVES

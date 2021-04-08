@@ -1,0 +1,21 @@
+Para manipular bases de datos debemos trabajar sobre la consola
+INSERTAR VALORES A TABLAS
+1- python manage.py shell  
+2- Debemos poner el nombre del proyecto y el nombre de la tabla a modificar from gestionPedidos.models import Articulos
+3- Debemos poner el nombre del objeto y luego los valores y a todo eso le damos el nombre de una variable art=Articulos(nombre='Mesa', seccion='Decoracion', precio=90)
+4- Despues ponemos el nombre de la variable art.save() y ya se graba la sentencia sql
+5- Asi lo podemos crear en una sola sentencia art3=Articulos.objects.create(nombre='Taladro', seccion='Ferreteria', precio=65)
+
+ACTUALIZAR VALORES
+1- art.precio=95 
+2- art.save()
+3- Asi de sencillo se actualizan valores de tablas
+
+BORRAR REGISTROS
+1-Creamos una nueva variable y le metemos la sentencia art5=Articulos.objects.get(id=2) 
+2- art5.delete y ya estaria
+
+SELECT
+1- Debemos meter en una lista el resultado de la sentencia Lista=Articulos.objects.all()
+2- Si le damos a Lista solamente te devuelve la query de las ids
+3- Si ponemos Lista.query.__str__() y asi te muestra la sentencia sql

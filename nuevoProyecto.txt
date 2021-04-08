@@ -1,0 +1,11 @@
+Para crear nuevo proyecto en django
+1- Abrimos cmd y nos ponemos en la carpeta donde queremos que se cree la carperta del nuevo proyecto
+2- Escribirmos django-admin startproject Nombre del proyecto (si falla hay que volver a instalar django)(pip install django)
+3- Entramos dentro de la carpeta que hemos creado nuevamente con el cmd
+4- Escribimos python manage.py startapp NombreApp
+5- Abrimos el archivo models y creamos las tablas
+6- Abrimos settings y en INSTALLED_APPS escribirmos a continuacion dentro de la lista el nombre del proyecto
+7- Para comprobar que todo esta funcionando correctamente ponemos este comando en la consola python manage.py check gestionPedidos
+8- Si todo va bien creamos las tablas con este comando python manage.py makemigrations (te da un numero de migrations si es la primera suele ser 0001)
+9- Tenemos que decirle a django que nos cree las sentencias sql python manage.py sqlmigrate gestionPedidos 0001
+10- Despues de todo eso escribimos este comando python manage.py migrate 

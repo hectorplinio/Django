@@ -1,0 +1,32 @@
+<html>
+    <body>
+    <!-- Esto sirve para hacer plantillas incrustadas -->
+    {% include "superior/barra.html" %}
+        <h1>
+        Hola mundo esta es nuestra primera plantilla con Django
+        </h1>
+
+        {% if nombre_persona == "Héctor"%}
+        <p>El curso lo imparte el profesor titular</p>
+        {% else %}
+        <p>El curso lo da otro profesor</p>
+        {% endif %}
+        <!-- Esto sirve para coger contenido de un documento python -->
+        <p>El nombre de la persona es: {{nombre_persona.upper}} y su apellido es {{apellido_persona.upper}}</p>
+        <p>La hora del servidor es {{hora.day}}/{{hora.month}}/{{hora.year}}</p>
+        <p><strong>Temas del curso:</strong></p>
+        <p>
+        <ul><!-- Asi se hacen los condicionales y los for -->
+            {% if temas %}
+                {% for elTema in temas %}
+                <li>{{elTema}}</li> 
+                <!-- Se pueden encadenar varios filtros con | como |first|upper -->
+                {% endfor %}
+
+            {% else %}
+                <p>No hay elementos que mostrar en la lista</p>
+            {% endif %}
+        </ul>
+        </p>
+    </body>
+</html>

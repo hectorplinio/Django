@@ -1,0 +1,22 @@
+CREACION NUEVO PROYECTO
+1- Una vez creado el nuevo proyecto tenemos que poner las urls y las views(crear un metodo por cada pagina que queramos tener).
+def home(request):
+    return HttpResponse("Home")
+2- Como pueden haber varios proyectos dentro del nuevo proyecto creado lo ideal es crear otro archivo urls.py
+3- Una vez creado tenemos que copiar todas las urls que queramos crear en nuestra web
+    path('', views.home, name="Home"),
+    path('servicios', views.servicios, name="Servicios"),
+    path('tienda', views.tienda, name="Tienda"),
+    path('blog', views.blog, name="Blog"),
+    path('contacto', views.contacto, name="Contacto"),
+4- Debemos quitar el admin ya que solo lo tendremos en el archivo urls.py principal
+5- Debemos enlazar un archivo urls con el otro añadiendo esto al original path
+('ProyectoWebApp/', include('ProyectoWebApp.urls')),
+Si solo usamos un proyecto el ProyectoWebApp podemos quitarlo
+6- Añadimos a la importacion el include y estas lineas al otro archivo
+from django.urls import path
+from ProyectoWebApp import views
+7- Creamos una carpeta llamada templates y a su vez otra dentro llamada igual que el proyecto
+8- Creamos los archivos html necesarios
+9- Abrimos settings.py y registramos nuestra app en INSTALLED_APPS 'ProyectoWebApp'
+10- Vamos a views y cambiamos el return por return render(request, "ProyectoWebApp/home.html") en cada uno de las vistas

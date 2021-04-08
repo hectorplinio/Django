@@ -1,0 +1,25 @@
+CREAR FORMULARIO CON API DJANGO
+1- Crear un archivo en la misma carpeta que settings.py y se debe llamar forms.py
+2- Importamos from django import forms
+3- Abrimos el archivo views.py e importamos from gestionPedidos.forms import FormularioContacto
+4- Creamos un metodo nuevo en el cual le ponemos este informacion
+def contacto(request):
+   if request.method=="POST":
+        miFormulario=FormularioContacto(request.POST)
+        if miFormulario.is_valid():
+            infForm=miFormulario.cleaned_data
+            send_mail(infForm["asunto"], infForm["mensaje"], infForm.get("email", ""),["hectorvillena123@gmail.com"],)
+            return render(request, "gracias.html")
+    
+    else:
+        miFormulario=FormularioContacto()
+    
+    return render(request, "formulario_contacto.html",{"form":miFormulario})
+5- Creamos el archivo HTML que hemos nombrado en la linea de arriba
+6- Añadimos esto antes del formulario para que si algunos de los campos requeridos no esta completo salga el mensaje
+	{% if form.erros %}
+        <p style="color: red;">Por favor revisa este campo</p>
+        {% endif %}
+7- Añadimos {% csrf_token %} despues del form
+8- Debemos crear un tabla ya que por defecto la API de Django crea el formulario como tablas
+9- Ponemos el boton y listo

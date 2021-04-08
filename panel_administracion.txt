@@ -1,0 +1,42 @@
+Para poder acceder al panel de administrador debemos crear un superusuario
+1- python manage.py createsuperuser
+2- Dejalo en blanco para usar el generico o pon uno 
+3- Pon correo y contraseña y ya tienes el superusuario
+4- Iniciamos el servidor con manage.py runserver
+5- http://127.0.0.1:8000/admin/login/?next=/admin/ entramos aqui y ponemos el superusuario
+
+AGREGAR TABLAS AL PANEL
+1- Abrimos el archivo admin.py e importamos from gestionPedidos.models import Clientes
+2- Ponemos debajo del comentario admin.site.register(Clientes) añade una s al final por defecto
+3- Abrimos nuestro panel y nos debe salir Clientes y ya podemos añadirlos
+4- A la hora de crear Clientes si sale en negrita es porque son campos requeridos
+5- Para que se pueda poner un valor en blanco o nulo se selecciona en models.py el valor de la tabla y se le añade (blank=True, null=True)
+6- Si hacemos esto debemos hacer python manage.py migration y despues python manage.py migrate
+7- Siempre que hagamos cambios debemos hacer el PASO 6
+
+CAMBIAR VALORES O NOMBRES PANEL
+Para cambiar nombre Campos del panel para dar de alta
+1- Ponemos añadirle en el parentesis verbose_name="El nombre que queramos") 
+
+Cambiar forma en la que salen los Clientes, Articulos ...
+1- Añadimos en models.py def __str__(self):
+        			return self.nombre
+2- python manage.py makemigrations y despues python manage.py migrate y luego python manage.py runserver
+
+Añadir para que salgan mas campos en la visualizacion
+1- Vamos al archivo admin.py, creamos una clase nueva, se pone arriba de donde hemos puesto admin.site.register(Clientes)
+2- class ClientesAdmin(admin.ModelAdmin):
+    list_display=("nombre", "direccion", "telefono")
+3- Añadimos en la linea el nombre de la clase admin.site.register(Clientes, ClientesAdmin)
+4- Para añadir la casilla de busqueda se añade en la clase que hemos creado search_fields=("nombre", "telefono") entre parentesis los campos donde podamos buscar
+
+AÑADIR FILTROS DE BUSQUEDA
+1- Creamos una nueva clase en admin.py o si ya la tenemos creada y añadimos esta linea
+2- list_filter=("seccion",) entre parentesis la opcion que queremos que nos de para filtras seguido de una ,
+LA HERRAMIENTA ES MAS OPTIMA SI FILTRAS POR FECHA
+3-list_filter=("fecha",) Sale el filtro a la derecha
+  date_hierarchy="fecha" Sale el filtro arriba de manera horizontal
+
+CAMBIAR IDIOMA ADMINISTRACION
+1- Abrimos archivo settings.py 
+2- Donde pone LANGUAGE_CODE = 'en-us' cambiarlo por LANGUAGE_CODE = 'es-eu'
