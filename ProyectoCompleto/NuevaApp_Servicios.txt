@@ -39,4 +39,21 @@ urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 AHORA QUEREMOS QUE CUANDO SUBAMOS UN SERVICIO NUEVO EN EL PANEL NOS SALGA EN LA PAGINA WEB
 1- Abrimos views.py e importamos from Servicios.models import Servicio
 2- Añadimos en el metodo servicios servicios=Servicio.objects.all()
-3- Dentro del parentesis {"Servicios":Servicios} 
+3- Dentro del parentesis {"Servicios":Servicios}
+4- Abrimos el html de servicios y añadimos un for
+    {% for Servicio in Servicios %}
+<div>
+    <p>
+        <h2>{{Servicio.titulo}}</h2>
+        <p>{{Servicio.contenido}}</p>
+	<p><img src="{{Servicio.imagen.url}}"></p>
+    </p>
+</div> 
+COMO HEMOS CREADO UNA APLICACION INDEPENDIENTE VAMOS A SEPARAR LAS 2
+1- Creamos una carpeta llamada templates y una subcarpeta llamada servicios dentro y arrastramos el html de servicios dentro
+2- Cortamos y pegamos del archivo views el metodo Servicios y el from tambien
+3- Vamos al archivo urls y copiamos todos los datos y dentro de servicios creamos un archivo igual y borramos todo menos Servicios
+path('', views.Servicios, name="Servicios"),
+4- La linea de importacion tiene que ser asi from . import views (Cambiamos dentro del metodo la url por "Servicios/servicios.html"
+5- Abrimos el urls principal y añadimos path('servicios', include('Servicios.urls')),
+
