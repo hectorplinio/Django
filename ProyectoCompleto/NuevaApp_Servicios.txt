@@ -36,3 +36,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 15- Añadimos bajo del todo 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+AHORA QUEREMOS QUE CUANDO SUBAMOS UN SERVICIO NUEVO EN EL PANEL NOS SALGA EN LA PAGINA WEB
+1- Abrimos views.py e importamos from Servicios.models import Servicio
+2- Añadimos en el metodo servicios servicios=Servicio.objects.all()
+3- Dentro del parentesis {"Servicios":Servicios} 

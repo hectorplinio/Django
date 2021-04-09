@@ -2,7 +2,17 @@
 
 {% load static %}
 {% block content %}
-<div><p></p></div>
+
+    {% for Servicio in Servicios %}
+<div>
+    <p>
+        <h2>{{Servicio.titulo}}</h2>
+        <p>{{Servicio.contenido}}</p>
+    </p>
+</div>
+
+    {% endfor %}
 {% endblock %}
+
 
   
