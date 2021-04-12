@@ -1,0 +1,38 @@
+VAMOS A CREAR UNA APP DENTRO DE ESTA APP QUE ASI PODREMOS REUTILIZAR
+1- Abrimos la terminal y escribimos python manage.py starapp contacto
+2- Abrimos el archivo setting y en INSTALLED_APPS añadimos 'contacto',
+3- Abrimos el archivo views.py y cortamos el metodo y lo pegamos en el de contacto
+from django.urls import path
+from . import views
+
+urlpatterns = [
+    path('', views.contactos, name="Contacto"),
+]
+4- Abrimos el archivo urls de ProyectoWeb y añadimos path('contacto', include('contacto.urls'))
+5- Creamos la carpeta templates dentro de contacto y otra subcarpeta llamada contacto dentro y movemos el archivo contacto.html
+6- Creamos un archivo llamado forms.py y ponemos lo siguiente
+from django import forms
+
+class FormularioContacto(forms.Form):
+    nombre=forms.CharField(label="Nombre", required=True)
+    email=forms.CharField(label="Email", required=True)
+    contenido=forms.CharField(label="Contenido")
+7- Abrimos el views.py de contacto y ponemos lo siguiente
+from django.shortcuts import render
+from .forms import FormularioContacto
+
+# Create your views here.
+
+def contactos(request):
+    formulario_contacto=FormularioContacto()
+    return render(request, "contacto/contacto.html",{'miformulario':formulario_contacto})
+8-Abrimos el archivo contacto.html y copiamos esto para dejarlo como una tabla de manera sencilla, dentro del block content
+<div style=" background-color: rgba(24, 64, 8); width: 50%; margin: 10px auto;border-radius: 5px;padding: 1px 0px;">
+    <form action="" method="POST" style="text-align: center;">
+        {% csrf_token %}
+    <table style="color: whitesmoke; margin: 20px auto;">
+        {{miformulario.as_table}}
+    </table>
+    <input type="submit" value="Enviar" style="width:150px">
+</form>
+</div>

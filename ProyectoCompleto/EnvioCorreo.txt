@@ -1,0 +1,25 @@
+1- Abrimos settings.py y escribimos esto
+EMAIL_BACKEND="django.core.mail.backends.smtp.EmailBackend"
+EMAIL_HOST="smtp.gmail.com"
+EMAIL_USE_TLS=True
+EMAIL_PORT=587
+EMAIL_HOST_USER="hectorvillena123@gmail.com"
+EMAIL_HOST_PASSWORD="Hector6140"
+2- Vamos al views de nuestro app from django.core.mail import EmailMessage
+def contacto(request):
+    formulario_contacto=FormularioContacto()
+    if request.method=="POST":
+        formulario_contacto=FormularioContacto(data=request.POST)
+        if formulario_contacto.is_valid():
+            nombre=request.POST.get("nombre")
+            email=request.POST.get("email")
+            contenido=request.POST.get("contenido")
+            
+            email=EmailMessage("Mensaje desde App Django", "El usuario con nombre {} con la direccion {} escribe: \n\n {} ".format(nombre,email,contenido),"",["hectorvillena123@gmail.com"],reply_to=[email])
+            try:
+                email.send()
+                return redirect("/contacto/?valido")
+            except:
+                return redirect("/contacto/?novalido")
+
+    return render(request, "contacto/contacto.html",{'miformulario':formulario_contacto})

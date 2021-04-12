@@ -1,0 +1,63 @@
+VAMOS A CREAR UNA APP DENTRO DE ESTA APP QUE ASI PODREMOS REUTILIZAR
+1- Abrimos la terminal y escribimos python manage.py starapp tienda
+2- Abrimos el archivo setting y en INSTALLED_APPS añadimos 'tienda',
+3- Abrimos el archivo views.py y cortamos el metodo y lo pegamos en el de contacto
+4- Copiamos el archivo urls y dejamos esto solamente
+from django.urls import path
+from . import views
+
+urlpatterns = [
+    path('', views.tienda, name="Tienda"),
+]
+5- Abrimos el archivo urls de ProyectoWeb y añadimos path('tienda', include('tienda.urls'))
+6- Creamos la carpeta templates dentro de contacto y otra subcarpeta llamada tienda dentro y movemos el archivo tienda.html
+7- Abrimos un archivo llamado models.py y ponemos lo siguiente
+from django.db import models
+
+# Create your models here.
+
+class CategoriaProd(models.Model):
+    nombre=models.CharField(max_length=50)
+    created=models.DateTimeField(auto_now_add=True)
+    updated=models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        verbose_name="categoriaProd"
+        verbose_name_plural="categoriasProd"
+    
+    def __str__(self):
+        return self.nombre
+
+class Producto(models.Model):
+    nombre=models.CharField(max_length=50)
+    categorias=models.ForeignKey(CategoriaProd, on_delete=models.CASCADE)
+    imagen=models.ImageField(upload_to="tienda", null=True, blank=True)
+    precio=models.FloatField()
+    disponibilidad=models.BooleanField(default=True)
+    created=models.DateTimeField(auto_now_add=True)
+    updated=models.DateTimeField(auto_now_add=True)
+    
+    class Meta:
+        verbose_name="Producto"
+        verbose_name_plural="Productos"
+8- python manage.py makemigrations
+9- python manage.py migrate
+10- Abrimos admin de al app tienda y registramos las tablas from .models import CategoriaProd, Producto
+class CategoriaProdAdmin(admin.ModelAdmin):
+    readonly_fields=("created", "updated")
+
+class ProductoAdmin(admin.ModelAdmin):
+    readonly_fields=("created", "updated")
+
+admin.site.register(CategoriaProd, CategoriaProdAdmin)
+admin.site.register(Producto, ProductoAdmin)
+11- Abrimos el views y lo dejamos asi 
+from django.shortcuts import render, HttpResponse
+from .models import Producto
+# Create your views here.
+
+def tienda(request):
+    productos=Producto.objects.all()
+    return render(request, "tienda/tienda.html", {"productos":productos})
+
+11- Luego hay que abrir el html y meterle el codigo
